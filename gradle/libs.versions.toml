@@ -1,0 +1,35 @@
+[versions]
+# kotlin
+kotlin = "1.9.0"
+kotlin_coroutines = "1.7.1"
+# android
+android_gradlePlugin = "8.1.0"
+android_buildCacheFixPlugin = "2.7.0"
+# androidx
+androidx_lifecycle = "2.6.1"
+androidx_compose_compiler = "1.5.2"
+androidx_compose_foundation = "1.5.0"
+
+# map
+kakao_vectormap = "2.5.0"
+
+[plugins]
+android_application = { id = "com.android.application", version.ref = "android_gradlePlugin" }
+android_library = { id = "com.android.library", version.ref = "android_gradlePlugin" }
+kotlin_android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin_parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
+
+android_buildCacheFix = { id = "org.gradle.android.cache-fix", version.ref = "android_buildCacheFixPlugin" }
+
+[libraries]
+# kotlin
+kotlin_coroutines_android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlin_coroutines" }
+
+# androidx
+androidx_lifecycle_common = { module = "androidx.lifecycle:lifecycle-common", version.ref = "androidx_lifecycle" }
+
+# compose
+androidx_compose_foundation = { module = "androidx.compose.foundation:foundation", version.ref = "androidx_compose_foundation" }
+
+# map
+kakao_vectormap = { module = "com.kakao.maps.open:android", version.ref = "kakao_vectormap" }
