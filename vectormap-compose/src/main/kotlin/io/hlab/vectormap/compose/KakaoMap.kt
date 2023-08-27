@@ -1,5 +1,6 @@
 package io.hlab.vectormap.compose
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -9,6 +10,7 @@ import androidx.compose.runtime.rememberCompositionContext
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -61,6 +63,12 @@ fun KakaoMap(
     onCameraMoveEnd: (CameraPosition, GestureType) -> Unit = { _, _ -> },
     content: (@Composable () -> Unit)? = null,
 ) {
+    // Compose preview 일 때, 빈 영역을 반환해 렌더링을 허용할 수 있도록 한다.
+    if (LocalInspectionMode.current) {
+        Box(modifier = modifier)
+        return
+    }
+
     val context = LocalContext.current
     val lifecycle = LocalLifecycleOwner.current.lifecycle
     val mapView = remember { MapView(context) }
