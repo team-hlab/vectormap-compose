@@ -1,5 +1,7 @@
 package io.hlab.vectormap.compose
 
+import android.graphics.PointF
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -10,10 +12,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.viewinterop.AndroidView
+import com.kakao.vectormap.Compass
+import com.kakao.vectormap.GestureType
 import com.kakao.vectormap.KakaoMap
+import com.kakao.vectormap.LatLng
 import com.kakao.vectormap.MapView
+import com.kakao.vectormap.MapViewInfo
+import com.kakao.vectormap.camera.CameraPosition
+import io.hlab.vectormap.compose.extension.NoPadding
 import io.hlab.vectormap.compose.extension.disposingComposition
 import io.hlab.vectormap.compose.extension.newComposition
+import io.hlab.vectormap.compose.internal.MapEventListeners
 import io.hlab.vectormap.compose.internal.MapLifecycleCallbacks
 
 /**
@@ -27,11 +36,20 @@ import io.hlab.vectormap.compose.internal.MapLifecycleCallbacks
 @Composable
 fun KakaoMap(
     modifier: Modifier = Modifier,
+    mapPadding: PaddingValues = NoPadding,
     onMapReady: (KakaoMap) -> Unit = {},
     onMapResumed: () -> Unit = {},
     onMapPaused: () -> Unit = {},
     onMapError: (Exception) -> Unit = {},
     onMapDestroy: () -> Unit = {},
+    onMapPaddingChange: () -> Unit = {},
+    onMapViewInfoChange: (MapViewInfo) -> Unit = {},
+    onMapClick: (LatLng) -> Unit = {},
+    onCompassClick: (Compass) -> Unit = {},
+    onPoiClick: (LatLng, String, String) -> Unit = { _, _, _ -> },
+    onTerrainClick: (LatLng, PointF) -> Unit = { _, _ -> },
+    onCameraMoveStart: (GestureType) -> Unit = {},
+    onCameraMoveEnd: (CameraPosition, GestureType) -> Unit = { _, _ -> },
     content: (@Composable () -> Unit)? = null,
 ) {
     val context = LocalContext.current
@@ -49,6 +67,16 @@ fun KakaoMap(
         it.onMapPaused = onMapPaused
         it.onMapError = onMapError
         it.onMapDestroy = onMapDestroy
+    }
+    val mapEventListeners = remember { MapEventListeners() }.also {
+        it.onMapPaddingChange = onMapPaddingChange
+        it.onMapViewInfoChange = onMapViewInfoChange
+        it.onMapClick = onMapClick
+        it.onCompassClick = onCompassClick
+        it.onPoiClick = onPoiClick
+        it.onTerrainClick = onTerrainClick
+        it.onCameraMoveStart = onCameraMoveStart
+        it.onCameraMoveEnd = onCameraMoveEnd
     }
     // compositions
     val parentComposition = rememberCompositionContext()
