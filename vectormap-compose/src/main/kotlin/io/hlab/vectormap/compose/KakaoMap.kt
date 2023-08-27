@@ -25,6 +25,7 @@ import io.hlab.vectormap.compose.extension.disposingComposition
 import io.hlab.vectormap.compose.extension.newComposition
 import io.hlab.vectormap.compose.internal.MapEventListeners
 import io.hlab.vectormap.compose.internal.MapLifecycleCallbacks
+import io.hlab.vectormap.compose.internal.MapUpdater
 
 /**
  * [com.kakao.vectormap.KakaoMap] 을 제공하는 컴포저블
@@ -88,6 +89,9 @@ fun KakaoMap(
         it.onCameraMoveStart = onCameraMoveStart
         it.onCameraMoveEnd = onCameraMoveEnd
     }
+    // map settings
+    val currentMapPadding by rememberUpdatedState(mapPadding)
+
     // compositions
     val parentComposition = rememberCompositionContext()
     val currentContent by rememberUpdatedState(content)
@@ -99,6 +103,10 @@ fun KakaoMap(
                 parentComposition = parentComposition,
                 mapCallbackContainer = mapLifecycleCallbacks,
             ) {
+                MapUpdater(
+                    mapEventListeners = mapEventListeners,
+                    mapPadding = currentMapPadding,
+                )
                 currentContent?.invoke()
             }
         }
