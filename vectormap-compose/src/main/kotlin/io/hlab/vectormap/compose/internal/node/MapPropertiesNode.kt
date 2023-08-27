@@ -1,5 +1,6 @@
 package io.hlab.vectormap.compose.internal.node
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 import com.kakao.vectormap.KakaoMap
@@ -16,10 +17,15 @@ import io.hlab.vectormap.compose.internal.MapEventListeners
  */
 internal class MapPropertiesNode(
     val map: KakaoMap,
+    initialMapPadding: PaddingValues,
     var mapEventListeners: MapEventListeners,
     var density: Density,
     var layoutDirection: LayoutDirection,
 ) : MapNode {
+
+    init {
+        setMapPadding(paddingValues = initialMapPadding)
+    }
 
     private val onCameraMoveStartListener = KakaoMap.OnCameraMoveStartListener { _, gestureType ->
         mapEventListeners.onCameraMoveStart(gestureType)
@@ -62,4 +68,19 @@ internal class MapPropertiesNode(
     }
 
     override fun onRemoved() = Unit
+
+    /**
+     * Map 의 Padding 을 설정하는 함수
+     */
+    internal fun setMapPadding(paddingValues: PaddingValues) {
+        val node = this
+        with(density) {
+            map.setPadding(
+                paddingValues.calculateLeftPadding(node.layoutDirection).roundToPx(),
+                paddingValues.calculateTopPadding().roundToPx(),
+                paddingValues.calculateRightPadding(node.layoutDirection).roundToPx(),
+                paddingValues.calculateBottomPadding().roundToPx(),
+            )
+        }
+    }
 }
