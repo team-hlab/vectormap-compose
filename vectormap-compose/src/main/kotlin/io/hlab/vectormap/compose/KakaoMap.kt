@@ -26,6 +26,7 @@ import io.hlab.vectormap.compose.extension.newComposition
 import io.hlab.vectormap.compose.internal.MapEventListeners
 import io.hlab.vectormap.compose.internal.MapLifecycleCallbacks
 import io.hlab.vectormap.compose.internal.MapUpdater
+import io.hlab.vectormap.compose.settings.MapInitialOptions
 
 /**
  * [com.kakao.vectormap.KakaoMap] 을 제공하는 컴포저블
@@ -38,6 +39,7 @@ import io.hlab.vectormap.compose.internal.MapUpdater
 @Composable
 fun KakaoMap(
     modifier: Modifier = Modifier,
+    mapInitialOptions: MapInitialOptions = MapInitialOptions(),
     contentDescription: String? = null,
     mapPadding: PaddingValues = NoPadding,
     onMapReady: (KakaoMap) -> Unit = {},
@@ -101,6 +103,7 @@ fun KakaoMap(
             mapView.newComposition(
                 lifecycle = lifecycle,
                 parentComposition = parentComposition,
+                mapInitialOptions = mapInitialOptions,
                 mapCallbackContainer = mapLifecycleCallbacks,
             ) {
                 MapUpdater(
