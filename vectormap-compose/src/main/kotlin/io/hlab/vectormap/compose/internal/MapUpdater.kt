@@ -12,6 +12,7 @@ import com.kakao.vectormap.MapType
 import com.kakao.vectormap.MapView
 import io.hlab.vectormap.compose.extension.getMap
 import io.hlab.vectormap.compose.internal.node.MapPropertiesNode
+import io.hlab.vectormap.compose.settings.MapGestureSettings
 import io.hlab.vectormap.compose.settings.MapViewSettings
 import io.hlab.vectormap.compose.settings.adjustDimScreenType
 
@@ -25,6 +26,7 @@ import io.hlab.vectormap.compose.settings.adjustDimScreenType
 internal inline fun MapUpdater(
     mapEventListeners: MapEventListeners,
     mapViewSettings: MapViewSettings,
+    mapGestureSettings: MapGestureSettings,
     mapPadding: PaddingValues,
 ) {
     // 지도 객체 및 화면 관련 정보
@@ -85,6 +87,20 @@ internal inline fun MapUpdater(
                 val dimScreenLayer = map.dimScreenManager?.dimScreenLayer ?: return@set
                 dimScreenLayer.setColor(color.toArgb())
             }
+            // Map Gesture Setting 설정
+            set(mapGestureSettings.isOneFingerDoubleTapEnabled) {
+                map.setGestureEnable(GestureType.OneFingerDoubleTap, it)
+            }
+            set(mapGestureSettings.isTwoFingerSingleTapEnabled) {
+                map.setGestureEnable(GestureType.TwoFingerSingleTap, it)
+            }
+            set(mapGestureSettings.isPanEnabled) { map.setGestureEnable(GestureType.Pan, it) }
+            set(mapGestureSettings.isRotateEnabled) { map.setGestureEnable(GestureType.Rotate, it) }
+            set(mapGestureSettings.isZoomEnabled) { map.setGestureEnable(GestureType.Zoom, it) }
+            set(mapGestureSettings.isTiltEnabled) { map.setGestureEnable(GestureType.Tilt, it) }
+            set(mapGestureSettings.isLongTapAndDragEnabled) { map.setGestureEnable(GestureType.LongTapAndDrag, it) }
+            set(mapGestureSettings.isRotateZoomEnabled) { map.setGestureEnable(GestureType.RotateZoom, it) }
+            set(mapGestureSettings.isOneFingerZoomEnabled) { map.setGestureEnable(GestureType.OneFingerZoom, it) }
             // EventListener 변화 감지
             update(mapEventListeners) { this.mapEventListeners = it }
         },
