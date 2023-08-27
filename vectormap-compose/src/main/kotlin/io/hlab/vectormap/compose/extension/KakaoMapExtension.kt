@@ -9,6 +9,7 @@ import com.kakao.vectormap.MapLifeCycleCallback
 import com.kakao.vectormap.MapView
 import io.hlab.vectormap.compose.internal.LifecycleAwareKakaoMapReadyCallback
 import io.hlab.vectormap.compose.internal.MapApplier
+import io.hlab.vectormap.compose.internal.MapLifecycleCallbacks
 import java.lang.Exception
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -24,18 +25,20 @@ import kotlin.coroutines.suspendCoroutine
 internal suspend inline fun MapView.newComposition(
     lifecycle: Lifecycle,
     parentComposition: CompositionContext,
+    mapCallbackContainer: MapLifecycleCallbacks,
     noinline content: @Composable () -> Unit,
 ): Composition {
-    val map = awaitMap(lifecycle = lifecycle)
+    val map = awaitMap(lifecycle = lifecycle, mapCallbackContainer = mapCallbackContainer)
     return Composition(applier = MapApplier(map = map, mapView = this), parent = parentComposition)
         .apply { setContent(content) }
 }
 
 private suspend inline fun MapView.awaitMap(
     lifecycle: Lifecycle,
+    mapCallbackContainer: MapLifecycleCallbacks,
 ): KakaoMap {
     return suspendCoroutine { continuation ->
-        getMapAsync(lifecycle = lifecycle) { kakaoMap ->
+        getMapAsync(lifecycle = lifecycle, mapCallbackContainer) { kakaoMap ->
             continuation.resume(kakaoMap)
         }
     }
@@ -43,21 +46,33 @@ private suspend inline fun MapView.awaitMap(
 
 private fun MapView.getMapAsync(
     lifecycle: Lifecycle,
+    mapCallbackContainer: MapLifecycleCallbacks,
     onMapReady: (KakaoMap) -> Unit,
 ) {
     start(
         object : MapLifeCycleCallback() {
-            override fun onMapPaused() = Unit
+            override fun onMapPaused() {
+                mapCallbackContainer.onMapPaused
+            }
 
-            override fun onMapResumed() = Unit
+            override fun onMapResumed() {
+                mapCallbackContainer.onMapResumed
+            }
 
-            override fun onMapDestroy() = Unit
+            override fun onMapDestroy() {
+                mapCallbackContainer.onMapDestroy
+            }
 
-            override fun onMapError(error: Exception?) = Unit
+            override fun onMapError(error: Exception) {
+                mapCallbackContainer.onMapError(error)
+            }
         },
 
         object : LifecycleAwareKakaoMapReadyCallback(lifecycle = lifecycle) {
-            override fun onLifecycleAwareMapReady(kakaoMap: KakaoMap) { onMapReady(kakaoMap) }
+            override fun onLifecycleAwareMapReady(kakaoMap: KakaoMap) {
+                onMapReady(kakaoMap)
+                mapCallbackContainer.onMapReady(kakaoMap)
+            }
         },
     )
 }

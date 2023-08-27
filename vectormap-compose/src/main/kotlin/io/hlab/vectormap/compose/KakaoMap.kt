@@ -10,9 +10,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.viewinterop.AndroidView
+import com.kakao.vectormap.KakaoMap
 import com.kakao.vectormap.MapView
 import io.hlab.vectormap.compose.extension.disposingComposition
 import io.hlab.vectormap.compose.extension.newComposition
+import io.hlab.vectormap.compose.internal.MapLifecycleCallbacks
 
 /**
  * [com.kakao.vectormap.KakaoMap] 을 제공하는 컴포저블
@@ -25,6 +27,11 @@ import io.hlab.vectormap.compose.extension.newComposition
 @Composable
 fun KakaoMap(
     modifier: Modifier = Modifier,
+    onMapReady: (KakaoMap) -> Unit = {},
+    onMapResumed: () -> Unit = {},
+    onMapPaused: () -> Unit = {},
+    onMapError: (Exception) -> Unit = {},
+    onMapDestroy: () -> Unit = {},
     content: (@Composable () -> Unit)? = null,
 ) {
     val context = LocalContext.current
@@ -33,6 +40,16 @@ fun KakaoMap(
 
     AndroidView(modifier = modifier, factory = { mapView })
 
+    // callback Containers
+    // remember 를 이용해 sub-composition 을 구독해 content invoke 가 매번 일어나지 않도록 컨트롤함
+    // 이와 같이 구성하면, 새로운 content invoke 를 제공하지 않으면서 sub-composition 에 대한 갱신이 가능함
+    val mapLifecycleCallbacks = remember { MapLifecycleCallbacks() }.also {
+        it.onMapReady = onMapReady
+        it.onMapResumed = onMapResumed
+        it.onMapPaused = onMapPaused
+        it.onMapError = onMapError
+        it.onMapDestroy = onMapDestroy
+    }
     // compositions
     val parentComposition = rememberCompositionContext()
     val currentContent by rememberUpdatedState(content)
@@ -42,6 +59,7 @@ fun KakaoMap(
             mapView.newComposition(
                 lifecycle = lifecycle,
                 parentComposition = parentComposition,
+                mapCallbackContainer = mapLifecycleCallbacks,
             ) {
                 currentContent?.invoke()
             }
