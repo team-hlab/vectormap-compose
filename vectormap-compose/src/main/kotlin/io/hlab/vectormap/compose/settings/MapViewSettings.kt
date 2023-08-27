@@ -31,7 +31,7 @@ import com.kakao.vectormap.PoiScale
  * 즉, 사용자에게는 단순히 visible 한 마지막 시점의 지도가 조작 불가능한 상태로 제공될 뿐이다. 이는 맵이 보이지 않게 하기 위한
  * 기존 의도와 다르므로, API 에서 제공하지 않습니다.
  */
-data class MapViewSettings(
+public data class MapViewSettings(
     val baseMap: MapType = MapType.NORMAL,
     val isCameraAnimateEnabled: Boolean = true,
     val isTrackingRotation: Boolean = true,

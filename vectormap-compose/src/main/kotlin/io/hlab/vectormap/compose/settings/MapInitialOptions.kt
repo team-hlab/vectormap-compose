@@ -14,7 +14,7 @@ import com.kakao.vectormap.MapType
  *
  * @see com.kakao.vectormap.MapReadyCallback
  */
-data class MapInitialOptions(
+public data class MapInitialOptions(
     val appName: String? = null,
     val mapType: MapType? = null,
     val styleName: String? = null,

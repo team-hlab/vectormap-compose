@@ -12,7 +12,7 @@ import com.kakao.vectormap.MapGravity
  * @param xPx x축 패딩 값. 기본값은 0 입니다.
  * @param yPx y축 패딩 값. 기본값은 0 입니다.
  */
-data class MapWidgetPosition(
+public data class MapWidgetPosition(
     val mapDirection: MapDirection,
     val xPx: Float = 0f,
     val yPx: Float = 0f,
@@ -21,7 +21,7 @@ data class MapWidgetPosition(
 /**
  * 쉽게 위젯의 방향을 설정할 수 있도록 제공하는 Data Util
  */
-enum class MapDirection(internal val value: Int) {
+public enum class MapDirection(internal val value: Int) {
     Center(MapGravity.CENTER),
     Top(MapGravity.TOP or MapGravity.CENTER_HORIZONTAL),
     Right(MapGravity.RIGHT or MapGravity.CENTER_VERTICAL),

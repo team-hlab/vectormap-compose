@@ -13,7 +13,7 @@ package io.hlab.vectormap.compose.settings
  * @param isRotateZoomEnabled 회전 줌을 허용할지 여부를 지정합니다.
  * @param isOneFingerZoomEnabled 한 손가락 줌을 허용할지 여부를 지정합니다.
  */
-data class MapGestureSettings(
+public data class MapGestureSettings(
     val isOneFingerDoubleTapEnabled: Boolean = true,
     val isTwoFingerSingleTapEnabled: Boolean = true,
     val isPanEnabled: Boolean = true,
@@ -30,7 +30,7 @@ internal val DefaultMapGestureSettings = MapGestureSettings()
 /**
  * 사용자의 제스처를 모두 허용하지 않는 세팅입니다.
  */
-val DisabledMapGestureSettings = MapGestureSettings(
+public val DisabledMapGestureSettings: MapGestureSettings = MapGestureSettings(
     isOneFingerDoubleTapEnabled = false,
     isTwoFingerSingleTapEnabled = false,
     isPanEnabled = false,

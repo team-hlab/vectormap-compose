@@ -18,15 +18,15 @@ import com.kakao.vectormap.camera.CameraPosition
  * - 지도 클릭 : [onMapClick], [onCompassClick], [onPoiClick], [onTerrainClick]
  * - 카메라 : [onCameraMoveStart], [onCameraMoveEnd]
  */
-class MapEventListeners {
-    var onMapPaddingChange: () -> Unit by mutableStateOf({})
-    var onMapViewInfoChange: (MapViewInfo) -> Unit by mutableStateOf({})
+public class MapEventListeners {
+    public var onMapPaddingChange: () -> Unit by mutableStateOf({})
+    public var onMapViewInfoChange: (MapViewInfo) -> Unit by mutableStateOf({})
 
-    var onMapClick: (LatLng) -> Unit by mutableStateOf({})
-    var onCompassClick: (Compass) -> Unit by mutableStateOf({})
-    var onPoiClick: (LatLng, String, String) -> Unit by mutableStateOf({ _, _, _ -> })
-    var onTerrainClick: (LatLng) -> Unit by mutableStateOf({ _ -> })
+    public var onMapClick: (LatLng) -> Unit by mutableStateOf({})
+    public var onCompassClick: (Compass) -> Unit by mutableStateOf({})
+    public var onPoiClick: (LatLng, String, String) -> Unit by mutableStateOf({ _, _, _ -> })
+    public var onTerrainClick: (LatLng) -> Unit by mutableStateOf({ _ -> })
 
-    var onCameraMoveStart: (GestureType) -> Unit by mutableStateOf({})
-    var onCameraMoveEnd: (CameraPosition, GestureType) -> Unit by mutableStateOf({ _, _ -> })
+    public var onCameraMoveStart: (GestureType) -> Unit by mutableStateOf({})
+    public var onCameraMoveEnd: (CameraPosition, GestureType) -> Unit by mutableStateOf({ _, _ -> })
 }

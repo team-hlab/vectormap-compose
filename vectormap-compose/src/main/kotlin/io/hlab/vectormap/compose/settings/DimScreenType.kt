@@ -11,7 +11,7 @@ import com.kakao.vectormap.shape.DimScreenCover
  * - [MapAndLabel] : 지도 및 라벨을 가리는 DimScreen 이 적용됩니다.
  * - [All] : 전체를 다 가리는 DimScreen 이 적용됩니다.
  */
-enum class DimScreenType {
+public enum class DimScreenType {
     NONE,
     OnlyMap,
     MapAndLabel,

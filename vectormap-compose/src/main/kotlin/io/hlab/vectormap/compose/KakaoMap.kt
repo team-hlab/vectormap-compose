@@ -44,7 +44,7 @@ import io.hlab.vectormap.compose.settings.MapViewSettings
  * @param content 다양한 컴포저블을 이용해 지도 뷰를 풍부하게 사용할 수 있음.
  */
 @Composable
-fun KakaoMap(
+public fun KakaoMap(
     modifier: Modifier = Modifier,
     mapInitialOptions: MapInitialOptions = DefaultMapInitialOptions,
     mapViewSettings: MapViewSettings = DefaultMapViewSettings,
