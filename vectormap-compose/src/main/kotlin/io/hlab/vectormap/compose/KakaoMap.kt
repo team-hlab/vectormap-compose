@@ -26,7 +26,10 @@ import io.hlab.vectormap.compose.extension.newComposition
 import io.hlab.vectormap.compose.internal.MapEventListeners
 import io.hlab.vectormap.compose.internal.MapLifecycleCallbacks
 import io.hlab.vectormap.compose.internal.MapUpdater
+import io.hlab.vectormap.compose.settings.DefaultMapInitialOptions
+import io.hlab.vectormap.compose.settings.DefaultMapViewSettings
 import io.hlab.vectormap.compose.settings.MapInitialOptions
+import io.hlab.vectormap.compose.settings.MapViewSettings
 
 /**
  * [com.kakao.vectormap.KakaoMap] 을 제공하는 컴포저블
@@ -39,7 +42,8 @@ import io.hlab.vectormap.compose.settings.MapInitialOptions
 @Composable
 fun KakaoMap(
     modifier: Modifier = Modifier,
-    mapInitialOptions: MapInitialOptions = MapInitialOptions(),
+    mapInitialOptions: MapInitialOptions = DefaultMapInitialOptions,
+    mapViewSettings: MapViewSettings = DefaultMapViewSettings,
     contentDescription: String? = null,
     mapPadding: PaddingValues = NoPadding,
     onMapReady: (KakaoMap) -> Unit = {},
@@ -93,6 +97,7 @@ fun KakaoMap(
     }
     // map settings
     val currentMapPadding by rememberUpdatedState(mapPadding)
+    val currentMapViewSettings by rememberUpdatedState(mapViewSettings)
 
     // compositions
     val parentComposition = rememberCompositionContext()
@@ -108,6 +113,7 @@ fun KakaoMap(
             ) {
                 MapUpdater(
                     mapEventListeners = mapEventListeners,
+                    mapViewSettings = currentMapViewSettings,
                     mapPadding = currentMapPadding,
                 )
                 currentContent?.invoke()

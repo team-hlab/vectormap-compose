@@ -20,3 +20,5 @@ data class MapInitialOptions(
     val styleName: String? = null,
     val timeout: Int? = null,
 )
+
+internal val DefaultMapInitialOptions = MapInitialOptions()
