@@ -51,9 +51,6 @@ internal class MapPropertiesNode(
         map.setOnMapClickListener { _, latLng, _, _ ->
             mapEventListeners.onMapClick(latLng)
         }
-        map.setOnMapClickListener { _, position, _, _ ->
-            mapEventListeners.onMapClick(position)
-        }
         map.setOnCompassClickListener { _, compass ->
             compass?.let { mapEventListeners.onCompassClick(it) }
         }
