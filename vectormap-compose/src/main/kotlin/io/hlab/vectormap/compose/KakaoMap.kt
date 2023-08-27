@@ -1,6 +1,5 @@
 package io.hlab.vectormap.compose
 
-import android.graphics.PointF
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -11,6 +10,8 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.viewinterop.AndroidView
 import com.kakao.vectormap.Compass
 import com.kakao.vectormap.GestureType
@@ -36,6 +37,7 @@ import io.hlab.vectormap.compose.internal.MapLifecycleCallbacks
 @Composable
 fun KakaoMap(
     modifier: Modifier = Modifier,
+    contentDescription: String? = null,
     mapPadding: PaddingValues = NoPadding,
     onMapReady: (KakaoMap) -> Unit = {},
     onMapResumed: () -> Unit = {},
@@ -47,7 +49,7 @@ fun KakaoMap(
     onMapClick: (LatLng) -> Unit = {},
     onCompassClick: (Compass) -> Unit = {},
     onPoiClick: (LatLng, String, String) -> Unit = { _, _, _ -> },
-    onTerrainClick: (LatLng, PointF) -> Unit = { _, _ -> },
+    onTerrainClick: (LatLng) -> Unit = { _ -> },
     onCameraMoveStart: (GestureType) -> Unit = {},
     onCameraMoveEnd: (CameraPosition, GestureType) -> Unit = { _, _ -> },
     content: (@Composable () -> Unit)? = null,
@@ -56,7 +58,15 @@ fun KakaoMap(
     val lifecycle = LocalLifecycleOwner.current.lifecycle
     val mapView = remember { MapView(context) }
 
-    AndroidView(modifier = modifier, factory = { mapView })
+    val semantics = if (contentDescription != null) {
+        Modifier.semantics {
+            this.contentDescription = contentDescription
+        }
+    } else {
+        Modifier
+    }
+
+    AndroidView(modifier = modifier.then(semantics), factory = { mapView })
 
     // callback Containers
     // remember 를 이용해 sub-composition 을 구독해 content invoke 가 매번 일어나지 않도록 컨트롤함
