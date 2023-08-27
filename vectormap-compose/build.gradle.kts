@@ -17,8 +17,22 @@ android {
         jvmToolchain(17)
     }
 
+    buildFeatures {
+        compose = true
+    }
+
+    kotlinOptions {
+        jvmTarget = "17"
+        freeCompilerArgs += "-Xexplicit-api=strict"
+        freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
+    }
+
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.androidx.compose.compiler.get()
+    }
+
+    lint {
+        abortOnError = true
     }
 }
 
