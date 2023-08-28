@@ -1,5 +1,7 @@
 package io.hlab.vectormap.compose
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -8,11 +10,30 @@ import androidx.compose.runtime.rememberCompositionContext
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.viewinterop.AndroidView
+import com.kakao.vectormap.Compass
+import com.kakao.vectormap.GestureType
+import com.kakao.vectormap.KakaoMap
+import com.kakao.vectormap.LatLng
 import com.kakao.vectormap.MapView
+import com.kakao.vectormap.MapViewInfo
+import com.kakao.vectormap.camera.CameraPosition
+import io.hlab.vectormap.compose.extension.NoPadding
 import io.hlab.vectormap.compose.extension.disposingComposition
 import io.hlab.vectormap.compose.extension.newComposition
+import io.hlab.vectormap.compose.internal.MapEventListeners
+import io.hlab.vectormap.compose.internal.MapLifecycleCallbacks
+import io.hlab.vectormap.compose.internal.MapUpdater
+import io.hlab.vectormap.compose.settings.DefaultMapGestureSettings
+import io.hlab.vectormap.compose.settings.DefaultMapInitialOptions
+import io.hlab.vectormap.compose.settings.DefaultMapViewSettings
+import io.hlab.vectormap.compose.settings.MapGestureSettings
+import io.hlab.vectormap.compose.settings.MapInitialOptions
+import io.hlab.vectormap.compose.settings.MapViewSettings
 
 /**
  * [com.kakao.vectormap.KakaoMap] 을 제공하는 컴포저블
@@ -23,15 +44,72 @@ import io.hlab.vectormap.compose.extension.newComposition
  * @param content 다양한 컴포저블을 이용해 지도 뷰를 풍부하게 사용할 수 있음.
  */
 @Composable
-fun KakaoMap(
+public fun KakaoMap(
     modifier: Modifier = Modifier,
+    mapInitialOptions: MapInitialOptions = DefaultMapInitialOptions,
+    mapViewSettings: MapViewSettings = DefaultMapViewSettings,
+    mapGestureSettings: MapGestureSettings = DefaultMapGestureSettings,
+    contentDescription: String? = null,
+    mapPadding: PaddingValues = NoPadding,
+    onMapReady: (KakaoMap) -> Unit = {},
+    onMapResumed: () -> Unit = {},
+    onMapPaused: () -> Unit = {},
+    onMapError: (Exception) -> Unit = {},
+    onMapDestroy: () -> Unit = {},
+    onMapPaddingChange: () -> Unit = {},
+    onMapViewInfoChange: (MapViewInfo) -> Unit = {},
+    onMapClick: (LatLng) -> Unit = {},
+    onCompassClick: (Compass) -> Unit = {},
+    onPoiClick: (LatLng, String, String) -> Unit = { _, _, _ -> },
+    onTerrainClick: (LatLng) -> Unit = { _ -> },
+    onCameraMoveStart: (GestureType) -> Unit = {},
+    onCameraMoveEnd: (CameraPosition, GestureType) -> Unit = { _, _ -> },
     content: (@Composable () -> Unit)? = null,
 ) {
+    // Compose preview 일 때, 빈 영역을 반환해 렌더링을 허용할 수 있도록 한다.
+    if (LocalInspectionMode.current) {
+        Box(modifier = modifier)
+        return
+    }
+
     val context = LocalContext.current
     val lifecycle = LocalLifecycleOwner.current.lifecycle
     val mapView = remember { MapView(context) }
 
-    AndroidView(modifier = modifier, factory = { mapView })
+    val semantics = if (contentDescription != null) {
+        Modifier.semantics {
+            this.contentDescription = contentDescription
+        }
+    } else {
+        Modifier
+    }
+
+    AndroidView(modifier = modifier.then(semantics), factory = { mapView })
+
+    // callback Containers
+    // remember 를 이용해 sub-composition 을 구독해 content invoke 가 매번 일어나지 않도록 컨트롤함
+    // 이와 같이 구성하면, 새로운 content invoke 를 제공하지 않으면서 sub-composition 에 대한 갱신이 가능함
+    val mapLifecycleCallbacks = remember { MapLifecycleCallbacks() }.also {
+        it.onMapReady = onMapReady
+        it.onMapResumed = onMapResumed
+        it.onMapPaused = onMapPaused
+        it.onMapError = onMapError
+        it.onMapDestroy = onMapDestroy
+    }
+    val mapEventListeners = remember { MapEventListeners() }.also {
+        it.onMapPaddingChange = onMapPaddingChange
+        it.onMapViewInfoChange = onMapViewInfoChange
+        it.onMapClick = onMapClick
+        it.onCompassClick = onCompassClick
+        it.onPoiClick = onPoiClick
+        it.onTerrainClick = onTerrainClick
+        it.onCameraMoveStart = onCameraMoveStart
+        it.onCameraMoveEnd = onCameraMoveEnd
+    }
+    // map settings
+    val currentMapPadding by rememberUpdatedState(mapPadding)
+    val currentMapViewSettings by rememberUpdatedState(mapViewSettings)
+    val currentMapGestureSettings by rememberUpdatedState(mapGestureSettings)
 
     // compositions
     val parentComposition = rememberCompositionContext()
@@ -42,7 +120,15 @@ fun KakaoMap(
             mapView.newComposition(
                 lifecycle = lifecycle,
                 parentComposition = parentComposition,
+                mapInitialOptions = mapInitialOptions,
+                mapCallbackContainer = mapLifecycleCallbacks,
             ) {
+                MapUpdater(
+                    mapEventListeners = mapEventListeners,
+                    mapViewSettings = currentMapViewSettings,
+                    mapGestureSettings = currentMapGestureSettings,
+                    mapPadding = currentMapPadding,
+                )
                 currentContent?.invoke()
             }
         }

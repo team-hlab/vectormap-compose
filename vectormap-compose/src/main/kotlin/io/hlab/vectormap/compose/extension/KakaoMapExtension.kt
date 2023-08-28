@@ -7,8 +7,11 @@ import androidx.lifecycle.Lifecycle
 import com.kakao.vectormap.KakaoMap
 import com.kakao.vectormap.MapLifeCycleCallback
 import com.kakao.vectormap.MapView
+import com.kakao.vectormap.MapViewInfo
 import io.hlab.vectormap.compose.internal.LifecycleAwareKakaoMapReadyCallback
 import io.hlab.vectormap.compose.internal.MapApplier
+import io.hlab.vectormap.compose.internal.MapLifecycleCallbacks
+import io.hlab.vectormap.compose.settings.MapInitialOptions
 import java.lang.Exception
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -24,18 +27,30 @@ import kotlin.coroutines.suspendCoroutine
 internal suspend inline fun MapView.newComposition(
     lifecycle: Lifecycle,
     parentComposition: CompositionContext,
+    mapInitialOptions: MapInitialOptions,
+    mapCallbackContainer: MapLifecycleCallbacks,
     noinline content: @Composable () -> Unit,
 ): Composition {
-    val map = awaitMap(lifecycle = lifecycle)
+    val map = awaitMap(
+        lifecycle = lifecycle,
+        mapInitialOptions = mapInitialOptions,
+        mapCallbackContainer = mapCallbackContainer,
+    )
     return Composition(applier = MapApplier(map = map, mapView = this), parent = parentComposition)
         .apply { setContent(content) }
 }
 
 private suspend inline fun MapView.awaitMap(
     lifecycle: Lifecycle,
+    mapInitialOptions: MapInitialOptions,
+    mapCallbackContainer: MapLifecycleCallbacks,
 ): KakaoMap {
     return suspendCoroutine { continuation ->
-        getMapAsync(lifecycle = lifecycle) { kakaoMap ->
+        getMapAsync(
+            lifecycle = lifecycle,
+            mapInitialOptions = mapInitialOptions,
+            mapCallbackContainer = mapCallbackContainer,
+        ) { kakaoMap ->
             continuation.resume(kakaoMap)
         }
     }
@@ -43,21 +58,46 @@ private suspend inline fun MapView.awaitMap(
 
 private fun MapView.getMapAsync(
     lifecycle: Lifecycle,
+    mapInitialOptions: MapInitialOptions,
+    mapCallbackContainer: MapLifecycleCallbacks,
     onMapReady: (KakaoMap) -> Unit,
 ) {
     start(
         object : MapLifeCycleCallback() {
-            override fun onMapPaused() = Unit
+            override fun onMapPaused() {
+                mapCallbackContainer.onMapPaused
+            }
 
-            override fun onMapResumed() = Unit
+            override fun onMapResumed() {
+                mapCallbackContainer.onMapResumed
+            }
 
-            override fun onMapDestroy() = Unit
+            override fun onMapDestroy() {
+                mapCallbackContainer.onMapDestroy
+            }
 
-            override fun onMapError(error: Exception?) = Unit
+            override fun onMapError(error: Exception) {
+                mapCallbackContainer.onMapError(error)
+            }
         },
 
         object : LifecycleAwareKakaoMapReadyCallback(lifecycle = lifecycle) {
-            override fun onLifecycleAwareMapReady(kakaoMap: KakaoMap) { onMapReady(kakaoMap) }
+            override fun onLifecycleAwareMapReady(kakaoMap: KakaoMap) {
+                onMapReady(kakaoMap)
+                mapCallbackContainer.onMapReady(kakaoMap)
+            }
+
+            override fun getMapViewInfo(): MapViewInfo {
+                val mapViewInfo = mapInitialOptions.appName ?.let { MapViewInfo.from(it) } ?: super.getMapViewInfo()
+                return mapViewInfo.apply {
+                    mapInitialOptions.mapType?.let { setMapType(it) }
+                    mapInitialOptions.styleName?.let { mapStyle = it }
+                }
+            }
+
+            override fun getTimeout(): Int {
+                return mapInitialOptions.timeout ?: super.getTimeout()
+            }
         },
     )
 }

@@ -2,6 +2,7 @@
 # kotlin
 kotlin = "1.9.0"
 kotlin_coroutines = "1.7.1"
+kotlin_binaryCompatibility = "0.13.2"
 # android
 android_gradlePlugin = "8.1.0"
 android_buildCacheFixPlugin = "2.7.0"
@@ -13,13 +14,25 @@ androidx_compose_foundation = "1.5.0"
 # map
 kakao_vectormap = "2.5.0"
 
+# ktlint
+ktlint_plugin = "11.5.1"
+ktlint = "0.50.0"
+
+# dokka
+dokka = "1.8.20"
+
 [plugins]
 android_application = { id = "com.android.application", version.ref = "android_gradlePlugin" }
 android_library = { id = "com.android.library", version.ref = "android_gradlePlugin" }
 kotlin_android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin_parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
+kotlin_binaryCompatibility = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "kotlin_binaryCompatibility" }
 
 android_buildCacheFix = { id = "org.gradle.android.cache-fix", version.ref = "android_buildCacheFixPlugin" }
+
+ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint_plugin" }
+
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 
 [libraries]
 # kotlin

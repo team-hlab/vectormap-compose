@@ -1,0 +1,176 @@
+public final class io/hlab/vectormap/compose/KakaoMapKt {
+	public static final fun KakaoMap (Landroidx/compose/ui/Modifier;Lio/hlab/vectormap/compose/settings/MapInitialOptions;Lio/hlab/vectormap/compose/settings/MapViewSettings;Lio/hlab/vectormap/compose/settings/MapGestureSettings;Ljava/lang/String;Landroidx/compose/foundation/layout/PaddingValues;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;III)V
+}
+
+public final class io/hlab/vectormap/compose/internal/MapEventListeners {
+	public static final field $stable I
+	public fun <init> ()V
+	public final fun getOnCameraMoveEnd ()Lkotlin/jvm/functions/Function2;
+	public final fun getOnCameraMoveStart ()Lkotlin/jvm/functions/Function1;
+	public final fun getOnCompassClick ()Lkotlin/jvm/functions/Function1;
+	public final fun getOnMapClick ()Lkotlin/jvm/functions/Function1;
+	public final fun getOnMapPaddingChange ()Lkotlin/jvm/functions/Function0;
+	public final fun getOnMapViewInfoChange ()Lkotlin/jvm/functions/Function1;
+	public final fun getOnPoiClick ()Lkotlin/jvm/functions/Function3;
+	public final fun getOnTerrainClick ()Lkotlin/jvm/functions/Function1;
+	public final fun setOnCameraMoveEnd (Lkotlin/jvm/functions/Function2;)V
+	public final fun setOnCameraMoveStart (Lkotlin/jvm/functions/Function1;)V
+	public final fun setOnCompassClick (Lkotlin/jvm/functions/Function1;)V
+	public final fun setOnMapClick (Lkotlin/jvm/functions/Function1;)V
+	public final fun setOnMapPaddingChange (Lkotlin/jvm/functions/Function0;)V
+	public final fun setOnMapViewInfoChange (Lkotlin/jvm/functions/Function1;)V
+	public final fun setOnPoiClick (Lkotlin/jvm/functions/Function3;)V
+	public final fun setOnTerrainClick (Lkotlin/jvm/functions/Function1;)V
+}
+
+public final class io/hlab/vectormap/compose/settings/DimScreenType : java/lang/Enum {
+	public static final field All Lio/hlab/vectormap/compose/settings/DimScreenType;
+	public static final field MapAndLabel Lio/hlab/vectormap/compose/settings/DimScreenType;
+	public static final field NONE Lio/hlab/vectormap/compose/settings/DimScreenType;
+	public static final field OnlyMap Lio/hlab/vectormap/compose/settings/DimScreenType;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lio/hlab/vectormap/compose/settings/DimScreenType;
+	public static fun values ()[Lio/hlab/vectormap/compose/settings/DimScreenType;
+}
+
+public final class io/hlab/vectormap/compose/settings/MapDirection : java/lang/Enum {
+	public static final field Bottom Lio/hlab/vectormap/compose/settings/MapDirection;
+	public static final field BottomLeft Lio/hlab/vectormap/compose/settings/MapDirection;
+	public static final field BottomRight Lio/hlab/vectormap/compose/settings/MapDirection;
+	public static final field Center Lio/hlab/vectormap/compose/settings/MapDirection;
+	public static final field Left Lio/hlab/vectormap/compose/settings/MapDirection;
+	public static final field Right Lio/hlab/vectormap/compose/settings/MapDirection;
+	public static final field Top Lio/hlab/vectormap/compose/settings/MapDirection;
+	public static final field TopLeft Lio/hlab/vectormap/compose/settings/MapDirection;
+	public static final field TopRight Lio/hlab/vectormap/compose/settings/MapDirection;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lio/hlab/vectormap/compose/settings/MapDirection;
+	public static fun values ()[Lio/hlab/vectormap/compose/settings/MapDirection;
+}
+
+public final class io/hlab/vectormap/compose/settings/MapGestureSettings {
+	public static final field $stable I
+	public fun <init> ()V
+	public fun <init> (ZZZZZZZZZ)V
+	public synthetic fun <init> (ZZZZZZZZZILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Z
+	public final fun component2 ()Z
+	public final fun component3 ()Z
+	public final fun component4 ()Z
+	public final fun component5 ()Z
+	public final fun component6 ()Z
+	public final fun component7 ()Z
+	public final fun component8 ()Z
+	public final fun component9 ()Z
+	public final fun copy (ZZZZZZZZZ)Lio/hlab/vectormap/compose/settings/MapGestureSettings;
+	public static synthetic fun copy$default (Lio/hlab/vectormap/compose/settings/MapGestureSettings;ZZZZZZZZZILjava/lang/Object;)Lio/hlab/vectormap/compose/settings/MapGestureSettings;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public final fun isLongTapAndDragEnabled ()Z
+	public final fun isOneFingerDoubleTapEnabled ()Z
+	public final fun isOneFingerZoomEnabled ()Z
+	public final fun isPanEnabled ()Z
+	public final fun isRotateEnabled ()Z
+	public final fun isRotateZoomEnabled ()Z
+	public final fun isTiltEnabled ()Z
+	public final fun isTwoFingerSingleTapEnabled ()Z
+	public final fun isZoomEnabled ()Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/hlab/vectormap/compose/settings/MapGestureSettingsKt {
+	public static final fun getDisabledMapGestureSettings ()Lio/hlab/vectormap/compose/settings/MapGestureSettings;
+}
+
+public final class io/hlab/vectormap/compose/settings/MapInitialOptions {
+	public static final field $stable I
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/String;Lcom/kakao/vectormap/MapType;Ljava/lang/String;Ljava/lang/Integer;)V
+	public synthetic fun <init> (Ljava/lang/String;Lcom/kakao/vectormap/MapType;Ljava/lang/String;Ljava/lang/Integer;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Ljava/lang/String;
+	public final fun component2 ()Lcom/kakao/vectormap/MapType;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/Integer;
+	public final fun copy (Ljava/lang/String;Lcom/kakao/vectormap/MapType;Ljava/lang/String;Ljava/lang/Integer;)Lio/hlab/vectormap/compose/settings/MapInitialOptions;
+	public static synthetic fun copy$default (Lio/hlab/vectormap/compose/settings/MapInitialOptions;Ljava/lang/String;Lcom/kakao/vectormap/MapType;Ljava/lang/String;Ljava/lang/Integer;ILjava/lang/Object;)Lio/hlab/vectormap/compose/settings/MapInitialOptions;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getAppName ()Ljava/lang/String;
+	public final fun getMapType ()Lcom/kakao/vectormap/MapType;
+	public final fun getStyleName ()Ljava/lang/String;
+	public final fun getTimeout ()Ljava/lang/Integer;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/hlab/vectormap/compose/settings/MapViewSettings {
+	public static final field $stable I
+	public synthetic fun <init> (Lcom/kakao/vectormap/MapType;ZZLio/hlab/vectormap/compose/settings/MapWidgetPosition;Lio/hlab/vectormap/compose/settings/MapWidgetPosition;ZZLio/hlab/vectormap/compose/settings/MapWidgetPosition;ZZZZLio/hlab/vectormap/compose/settings/PoiLanguage;Lcom/kakao/vectormap/PoiScale;FLjava/util/Set;Lio/hlab/vectormap/compose/settings/DimScreenType;JILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lcom/kakao/vectormap/MapType;ZZLio/hlab/vectormap/compose/settings/MapWidgetPosition;Lio/hlab/vectormap/compose/settings/MapWidgetPosition;ZZLio/hlab/vectormap/compose/settings/MapWidgetPosition;ZZZZLio/hlab/vectormap/compose/settings/PoiLanguage;Lcom/kakao/vectormap/PoiScale;FLjava/util/Set;Lio/hlab/vectormap/compose/settings/DimScreenType;JLkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lcom/kakao/vectormap/MapType;
+	public final fun component10 ()Z
+	public final fun component11 ()Z
+	public final fun component12 ()Z
+	public final fun component13 ()Lio/hlab/vectormap/compose/settings/PoiLanguage;
+	public final fun component14 ()Lcom/kakao/vectormap/PoiScale;
+	public final fun component15 ()F
+	public final fun component16 ()Ljava/util/Set;
+	public final fun component17 ()Lio/hlab/vectormap/compose/settings/DimScreenType;
+	public final fun component18-0d7_KjU ()J
+	public final fun component2 ()Z
+	public final fun component3 ()Z
+	public final fun component4 ()Lio/hlab/vectormap/compose/settings/MapWidgetPosition;
+	public final fun component5 ()Lio/hlab/vectormap/compose/settings/MapWidgetPosition;
+	public final fun component6 ()Z
+	public final fun component7 ()Z
+	public final fun component8 ()Lio/hlab/vectormap/compose/settings/MapWidgetPosition;
+	public final fun component9 ()Z
+	public final fun copy-x2cCqHM (Lcom/kakao/vectormap/MapType;ZZLio/hlab/vectormap/compose/settings/MapWidgetPosition;Lio/hlab/vectormap/compose/settings/MapWidgetPosition;ZZLio/hlab/vectormap/compose/settings/MapWidgetPosition;ZZZZLio/hlab/vectormap/compose/settings/PoiLanguage;Lcom/kakao/vectormap/PoiScale;FLjava/util/Set;Lio/hlab/vectormap/compose/settings/DimScreenType;J)Lio/hlab/vectormap/compose/settings/MapViewSettings;
+	public static synthetic fun copy-x2cCqHM$default (Lio/hlab/vectormap/compose/settings/MapViewSettings;Lcom/kakao/vectormap/MapType;ZZLio/hlab/vectormap/compose/settings/MapWidgetPosition;Lio/hlab/vectormap/compose/settings/MapWidgetPosition;ZZLio/hlab/vectormap/compose/settings/MapWidgetPosition;ZZZZLio/hlab/vectormap/compose/settings/PoiLanguage;Lcom/kakao/vectormap/PoiScale;FLjava/util/Set;Lio/hlab/vectormap/compose/settings/DimScreenType;JILjava/lang/Object;)Lio/hlab/vectormap/compose/settings/MapViewSettings;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getBaseMap ()Lcom/kakao/vectormap/MapType;
+	public final fun getBuildingHeightScale ()F
+	public final fun getCompassPosition ()Lio/hlab/vectormap/compose/settings/MapWidgetPosition;
+	public final fun getDimScreenColor-0d7_KjU ()J
+	public final fun getDimScreenType ()Lio/hlab/vectormap/compose/settings/DimScreenType;
+	public final fun getFixedCenterGestures ()Ljava/util/Set;
+	public final fun getLogoPosition ()Lio/hlab/vectormap/compose/settings/MapWidgetPosition;
+	public final fun getPoiLanguage ()Lio/hlab/vectormap/compose/settings/PoiLanguage;
+	public final fun getPoiScale ()Lcom/kakao/vectormap/PoiScale;
+	public final fun getScaleBarPosition ()Lio/hlab/vectormap/compose/settings/MapWidgetPosition;
+	public fun hashCode ()I
+	public final fun isCameraAnimateEnabled ()Z
+	public final fun isCompassBackToNorthOnClick ()Z
+	public final fun isCompassVisible ()Z
+	public final fun isPoiClickable ()Z
+	public final fun isPoiVisible ()Z
+	public final fun isScaleBarAutoHide ()Z
+	public final fun isScaleBarVisible ()Z
+	public final fun isTrackingRotation ()Z
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/hlab/vectormap/compose/settings/MapWidgetPosition {
+	public static final field $stable I
+	public fun <init> (Lio/hlab/vectormap/compose/settings/MapDirection;FF)V
+	public synthetic fun <init> (Lio/hlab/vectormap/compose/settings/MapDirection;FFILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Lio/hlab/vectormap/compose/settings/MapDirection;
+	public final fun component2 ()F
+	public final fun component3 ()F
+	public final fun copy (Lio/hlab/vectormap/compose/settings/MapDirection;FF)Lio/hlab/vectormap/compose/settings/MapWidgetPosition;
+	public static synthetic fun copy$default (Lio/hlab/vectormap/compose/settings/MapWidgetPosition;Lio/hlab/vectormap/compose/settings/MapDirection;FFILjava/lang/Object;)Lio/hlab/vectormap/compose/settings/MapWidgetPosition;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getMapDirection ()Lio/hlab/vectormap/compose/settings/MapDirection;
+	public final fun getXPx ()F
+	public final fun getYPx ()F
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/hlab/vectormap/compose/settings/PoiLanguage : java/lang/Enum {
+	public static final field English Lio/hlab/vectormap/compose/settings/PoiLanguage;
+	public static final field Korean Lio/hlab/vectormap/compose/settings/PoiLanguage;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lio/hlab/vectormap/compose/settings/PoiLanguage;
+	public static fun values ()[Lio/hlab/vectormap/compose/settings/PoiLanguage;
+}
+
