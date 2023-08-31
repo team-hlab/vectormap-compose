@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sample_app_key">231e5862f8841d6b3def453f08ecb6ba</string>
+
+    <!-- Home -->
+    <string name="home_tab_home">홈</string>
+    <string name="home_tab_nearby">주변</string>
+    <string name="home_tab_profile">마이</string>
+
+</resources>
