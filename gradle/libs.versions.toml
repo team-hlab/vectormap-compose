@@ -7,9 +7,16 @@ kotlin_binaryCompatibility = "0.13.2"
 android_gradlePlugin = "8.1.0"
 android_buildCacheFixPlugin = "2.7.0"
 # androidx
+androidx_activity = "1.7.2"
 androidx_lifecycle = "2.6.1"
 androidx_compose_compiler = "1.5.2"
-androidx_compose_foundation = "1.5.0"
+androidx_compose = "1.5.0"
+amdrpodx_compose_ui = "1.5.0"
+androidx_compose_runtime = "1.5.0"
+androidx_compose_material = "1.5.0"
+
+# ui
+material_component = "1.9.0"
 
 # map
 kakao_vectormap = "2.5.0"
@@ -40,9 +47,16 @@ kotlin_coroutines_android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines
 
 # androidx
 androidx_lifecycle_common = { module = "androidx.lifecycle:lifecycle-common", version.ref = "androidx_lifecycle" }
+androidx_activity_compose = { module = "androidx.activity:activity-compose", version.ref = "androidx_activity" }
 
 # compose
-androidx_compose_foundation = { module = "androidx.compose.foundation:foundation", version.ref = "androidx_compose_foundation" }
+androidx_compose_foundation = { module = "androidx.compose.foundation:foundation", version.ref = "androidx_compose" }
+androidx_compose_runtime = { module = "androidx.compose.runtime:runtime", version.ref = "androidx_compose_runtime" }
+androidx_compose_ui = { module = "androidx.compose.ui:ui", version.ref = "amdrpodx_compose_ui" }
+androidx_compose_material = { module = "androidx.compose.material:material", version.ref = "androidx_compose_material" }
+
+# material
+material_component = { module = "com.google.android.material:material", version.ref = "material_component"}
 
 # map
 kakao_vectormap = { module = "com.kakao.maps.open:android", version.ref = "kakao_vectormap" }
