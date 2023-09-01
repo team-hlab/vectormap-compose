@@ -3,6 +3,7 @@
 kotlin = "1.9.0"
 kotlin_coroutines = "1.7.1"
 kotlin_binaryCompatibility = "0.13.2"
+ksp = "1.9.0-1.0.13"
 # android
 android_gradlePlugin = "8.1.0"
 android_buildCacheFixPlugin = "2.7.0"
@@ -20,6 +21,7 @@ material_component = "1.9.0"
 
 # map
 kakao_vectormap = "2.5.0"
+hilt = "2.44"
 
 # ktlint
 ktlint_plugin = "11.5.1"
@@ -33,6 +35,7 @@ android_application = { id = "com.android.application", version.ref = "android_g
 android_library = { id = "com.android.library", version.ref = "android_gradlePlugin" }
 kotlin_android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin_parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
+kotlin_ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlin_binaryCompatibility = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "kotlin_binaryCompatibility" }
 
 android_buildCacheFix = { id = "org.gradle.android.cache-fix", version.ref = "android_buildCacheFixPlugin" }
@@ -40,6 +43,8 @@ android_buildCacheFix = { id = "org.gradle.android.cache-fix", version.ref = "an
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint_plugin" }
 
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 
 [libraries]
 # kotlin
@@ -60,3 +65,7 @@ material_component = { module = "com.google.android.material:material", version.
 
 # map
 kakao_vectormap = { module = "com.kakao.maps.open:android", version.ref = "kakao_vectormap" }
+
+# hilt
+hilt_android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
+hilt_compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }

@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.android.buildCacheFix)
+    alias(libs.plugins.kotlin.ksp)
+    alias(libs.plugins.hilt)
 }
 
 android {
@@ -45,4 +47,7 @@ dependencies {
     implementation(libs.androidx.compose.material)
 
     implementation(libs.material.component)
+
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
 }
