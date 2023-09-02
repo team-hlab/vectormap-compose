@@ -34,6 +34,21 @@ android {
     lint {
         abortOnError = true
     }
+
+    signingConfigs {
+        getByName("debug") {
+            storeFile = file("../keystore/debug.keystore")
+            storePassword = "teamhlab!"
+            keyAlias = "sample"
+            keyPassword = "teamhlab!"
+        }
+    }
+
+    buildTypes {
+        debug {
+            signingConfig = signingConfigs.getByName("debug")
+        }
+    }
 }
 
 dependencies {
