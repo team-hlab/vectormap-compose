@@ -2,8 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.android.buildCacheFix)
-    alias(libs.plugins.kotlin.ksp)
-    alias(libs.plugins.hilt)
+    id("org.jetbrains.kotlin.kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -39,6 +39,10 @@ android {
     }
 }
 
+hilt {
+    enableAggregatingTask = true
+}
+
 dependencies {
     implementation(project(":vectormap-compose"))
 
@@ -49,5 +53,6 @@ dependencies {
     implementation(libs.material.component)
 
     implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
+    kapt(libs.hilt.compiler)
+    implementation(libs.hilt.navigation.compose)
 }
