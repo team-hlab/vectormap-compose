@@ -21,7 +21,8 @@ material_component = "1.9.0"
 
 # map
 kakao_vectormap = "2.5.0"
-hilt = "2.44"
+hilt = "2.48"
+hilt_navigation_compose = "1.0.0"
 
 # ktlint
 ktlint_plugin = "11.5.1"
@@ -35,6 +36,7 @@ android_application = { id = "com.android.application", version.ref = "android_g
 android_library = { id = "com.android.library", version.ref = "android_gradlePlugin" }
 kotlin_android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin_parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
+kotlin_kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 kotlin_ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlin_binaryCompatibility = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "kotlin_binaryCompatibility" }
 
@@ -69,3 +71,4 @@ kakao_vectormap = { module = "com.kakao.maps.open:android", version.ref = "kakao
 # hilt
 hilt_android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt_compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
+hilt_navigation_compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hilt_navigation_compose" }
