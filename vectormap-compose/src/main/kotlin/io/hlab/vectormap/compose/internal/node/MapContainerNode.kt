@@ -68,4 +68,4 @@ internal open class MapContainerNode : MapNode {
     fun hasChildren(): Boolean = children.isNotEmpty()
 }
 
-internal class RootMapNode : MapNode
+internal class RootMapNode : MapContainerNode()
