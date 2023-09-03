@@ -2,6 +2,46 @@ public final class io/hlab/vectormap/compose/KakaoMapKt {
 	public static final fun KakaoMap (Landroidx/compose/ui/Modifier;Lio/hlab/vectormap/compose/settings/MapInitialOptions;Lio/hlab/vectormap/compose/settings/MapViewSettings;Lio/hlab/vectormap/compose/settings/MapGestureSettings;Ljava/lang/String;Landroidx/compose/foundation/layout/PaddingValues;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;III)V
 }
 
+public final class io/hlab/vectormap/compose/extension/BuilderExtensionKt {
+	public static final fun cameraPosition (Lkotlin/jvm/functions/Function1;)Lcom/kakao/vectormap/camera/CameraPosition;
+}
+
+public final class io/hlab/vectormap/compose/internal/CameraPositionParcel : android/os/Parcelable {
+	public static final field $stable I
+	public static final field CREATOR Landroid/os/Parcelable$Creator;
+	public fun <init> (Lcom/kakao/vectormap/LatLng;IDDD)V
+	public final fun component1 ()Lcom/kakao/vectormap/LatLng;
+	public final fun component2 ()I
+	public final fun component3 ()D
+	public final fun component4 ()D
+	public final fun component5 ()D
+	public final fun copy (Lcom/kakao/vectormap/LatLng;IDDD)Lio/hlab/vectormap/compose/internal/CameraPositionParcel;
+	public static synthetic fun copy$default (Lio/hlab/vectormap/compose/internal/CameraPositionParcel;Lcom/kakao/vectormap/LatLng;IDDDILjava/lang/Object;)Lio/hlab/vectormap/compose/internal/CameraPositionParcel;
+	public fun describeContents ()I
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getHeight ()D
+	public final fun getPosition ()Lcom/kakao/vectormap/LatLng;
+	public final fun getRotationAngle ()D
+	public final fun getTiltAngle ()D
+	public final fun getZoomLevel ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+	public fun writeToParcel (Landroid/os/Parcel;I)V
+}
+
+public final class io/hlab/vectormap/compose/internal/CameraPositionParcel$Creator : android/os/Parcelable$Creator {
+	public fun <init> ()V
+	public final fun createFromParcel (Landroid/os/Parcel;)Lio/hlab/vectormap/compose/internal/CameraPositionParcel;
+	public synthetic fun createFromParcel (Landroid/os/Parcel;)Ljava/lang/Object;
+	public final fun newArray (I)[Lio/hlab/vectormap/compose/internal/CameraPositionParcel;
+	public synthetic fun newArray (I)[Ljava/lang/Object;
+}
+
+public final class io/hlab/vectormap/compose/internal/CameraPositionParcelKt {
+	public static final fun parcelize (Lcom/kakao/vectormap/camera/CameraPosition;)Lio/hlab/vectormap/compose/internal/CameraPositionParcel;
+	public static final fun restore (Lio/hlab/vectormap/compose/internal/CameraPositionParcel;)Lcom/kakao/vectormap/camera/CameraPosition;
+}
+
 public final class io/hlab/vectormap/compose/internal/MapEventListeners {
 	public static final field $stable I
 	public fun <init> ()V
@@ -172,5 +212,35 @@ public final class io/hlab/vectormap/compose/settings/PoiLanguage : java/lang/En
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lio/hlab/vectormap/compose/settings/PoiLanguage;
 	public static fun values ()[Lio/hlab/vectormap/compose/settings/PoiLanguage;
+}
+
+public final class io/hlab/vectormap/compose/state/CameraPositionDefaults {
+	public static final field $stable I
+	public static final field INSTANCE Lio/hlab/vectormap/compose/state/CameraPositionDefaults;
+	public final fun getDefaultCameraPosition ()Lcom/kakao/vectormap/camera/CameraPosition;
+}
+
+public final class io/hlab/vectormap/compose/state/CameraPositionState {
+	public static final field $stable I
+	public static final field Companion Lio/hlab/vectormap/compose/state/CameraPositionState$Companion;
+	public fun <init> ()V
+	public fun <init> (Lcom/kakao/vectormap/camera/CameraPosition;)V
+	public synthetic fun <init> (Lcom/kakao/vectormap/camera/CameraPosition;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getMaxZoomLevel ()I
+	public final fun getMinZoomLevel ()I
+	public final fun getPosition ()Lcom/kakao/vectormap/camera/CameraPosition;
+	public final fun getZoomLevel ()Ljava/lang/Integer;
+	public final fun isMoving ()Z
+	public final fun move (Lcom/kakao/vectormap/camera/CameraUpdate;)V
+	public final fun move (Lcom/kakao/vectormap/camera/CameraUpdate;Lcom/kakao/vectormap/camera/CameraAnimation;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun setPosition (Lcom/kakao/vectormap/camera/CameraPosition;)V
+}
+
+public final class io/hlab/vectormap/compose/state/CameraPositionState$Companion {
+	public final fun getSaver ()Landroidx/compose/runtime/saveable/Saver;
+}
+
+public final class io/hlab/vectormap/compose/state/CameraPositionStateKt {
+	public static final fun rememberCameraPositionState (Ljava/lang/String;Lcom/kakao/vectormap/camera/CameraPosition;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Lio/hlab/vectormap/compose/state/CameraPositionState;
 }
 
