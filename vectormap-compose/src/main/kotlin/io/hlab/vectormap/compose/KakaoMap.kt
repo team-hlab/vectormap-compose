@@ -23,6 +23,7 @@ import com.kakao.vectormap.LatLng
 import com.kakao.vectormap.MapView
 import com.kakao.vectormap.MapViewInfo
 import com.kakao.vectormap.camera.CameraPosition
+import io.hlab.vectormap.compose.annotation.KakaoMapComposable
 import io.hlab.vectormap.compose.extension.NoPadding
 import io.hlab.vectormap.compose.extension.disposingComposition
 import io.hlab.vectormap.compose.extension.newComposition
@@ -69,7 +70,10 @@ public fun KakaoMap(
     onTerrainClick: (LatLng) -> Unit = { _ -> },
     onCameraMoveStart: (GestureType) -> Unit = {},
     onCameraMoveEnd: (CameraPosition, GestureType) -> Unit = { _, _ -> },
-    content: (@Composable () -> Unit)? = null,
+    content: (
+        @Composable @KakaoMapComposable
+        () -> Unit
+    )? = null,
 ) {
     // Compose preview 일 때, 빈 영역을 반환해 렌더링을 허용할 수 있도록 한다.
     if (LocalInspectionMode.current) {

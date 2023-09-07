@@ -2,6 +2,9 @@ public final class io/hlab/vectormap/compose/KakaoMapKt {
 	public static final fun KakaoMap (Landroidx/compose/ui/Modifier;Lio/hlab/vectormap/compose/settings/MapInitialOptions;Lio/hlab/vectormap/compose/state/CameraPositionState;Lio/hlab/vectormap/compose/settings/MapViewSettings;Lio/hlab/vectormap/compose/settings/MapGestureSettings;Ljava/lang/String;Landroidx/compose/foundation/layout/PaddingValues;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;IIII)V
 }
 
+public abstract interface annotation class io/hlab/vectormap/compose/annotation/KakaoMapComposable : java/lang/annotation/Annotation {
+}
+
 public final class io/hlab/vectormap/compose/extension/BuilderExtensionKt {
 	public static final fun cameraPosition (Lkotlin/jvm/functions/Function1;)Lcom/kakao/vectormap/camera/CameraPosition;
 }
@@ -61,6 +64,35 @@ public final class io/hlab/vectormap/compose/internal/MapEventListeners {
 	public final fun setOnMapViewInfoChange (Lkotlin/jvm/functions/Function1;)V
 	public final fun setOnPoiClick (Lkotlin/jvm/functions/Function3;)V
 	public final fun setOnTerrainClick (Lkotlin/jvm/functions/Function1;)V
+}
+
+public final class io/hlab/vectormap/compose/overlay/ComposableSingletons$LabelKt {
+	public static final field INSTANCE Lio/hlab/vectormap/compose/overlay/ComposableSingletons$LabelKt;
+	public static field lambda-1 Lkotlin/jvm/functions/Function2;
+	public static field lambda-2 Lkotlin/jvm/functions/Function2;
+	public static field lambda-3 Lkotlin/jvm/functions/Function2;
+	public static field lambda-4 Lkotlin/jvm/functions/Function2;
+	public fun <init> ()V
+	public final fun getLambda-1$vectormap_compose_release ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda-2$vectormap_compose_release ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda-3$vectormap_compose_release ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda-4$vectormap_compose_release ()Lkotlin/jvm/functions/Function2;
+}
+
+public final class io/hlab/vectormap/compose/overlay/LabelDefaults {
+	public static final field $stable I
+	public static final field INSTANCE Lio/hlab/vectormap/compose/overlay/LabelDefaults;
+	public static final field MinZoom I
+	public static final field MoveDuration I
+	public final fun getAnchor-F1C5BW0 ()J
+	public final fun getMapLabelTransition ()Lcom/kakao/vectormap/label/LabelTransition;
+	public final fun getTransform ()Lcom/kakao/vectormap/label/TransformMethod;
+}
+
+public final class io/hlab/vectormap/compose/overlay/LabelKt {
+	public static final fun Label-jB5dRyM (Lcom/kakao/vectormap/LatLng;Landroid/graphics/Bitmap;JFLjava/lang/String;Ljava/lang/String;JLcom/kakao/vectormap/label/LabelTransition;Lcom/kakao/vectormap/label/TransformMethod;ZIZZLkotlin/jvm/functions/Function1;ZZILkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;III)V
+	public static final fun Label-jB5dRyM (Lcom/kakao/vectormap/LatLng;Ljava/lang/Integer;JFLjava/lang/String;Ljava/lang/String;JLcom/kakao/vectormap/label/LabelTransition;Lcom/kakao/vectormap/label/TransformMethod;ZIZZLkotlin/jvm/functions/Function1;ZZILkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;III)V
+	public static final fun Label-lYjPK8E (Lcom/kakao/vectormap/LatLng;Lkotlin/jvm/functions/Function2;Ljava/lang/String;JFLjava/lang/String;Ljava/lang/String;JLcom/kakao/vectormap/label/LabelTransition;Lcom/kakao/vectormap/label/TransformMethod;ZIZZLkotlin/jvm/functions/Function1;ZZILkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;III)V
 }
 
 public final class io/hlab/vectormap/compose/settings/DimScreenType : java/lang/Enum {

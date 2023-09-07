@@ -3,6 +3,8 @@ package io.hlab.vectormap.compose.internal
 import androidx.compose.runtime.AbstractApplier
 import com.kakao.vectormap.KakaoMap
 import com.kakao.vectormap.MapView
+import com.kakao.vectormap.label.Label
+import io.hlab.vectormap.compose.internal.node.LabelNode
 import io.hlab.vectormap.compose.internal.node.MapContainerNode
 import io.hlab.vectormap.compose.internal.node.MapNode
 import io.hlab.vectormap.compose.internal.node.RootMapNode
@@ -16,6 +18,12 @@ internal class MapApplier(
     val map: KakaoMap,
     internal val mapView: MapView,
 ) : AbstractApplier<MapNode>(RootMapNode()) {
+
+    private val labelNodes = mutableMapOf<Label, LabelNode>()
+
+    init {
+        initOnClickListeners()
+    }
 
     /**
      * 현재 MapNode 트리의 구조는 ComposeNode 에 의해 factory 로 생성된 MapRootNode 가 Root 인 Tree 이다.
@@ -32,6 +40,10 @@ internal class MapApplier(
      */
     override fun insertBottomUp(index: Int, instance: MapNode) {
         checkNotNull(current as? MapContainerNode).insertAt(index = index, instance = instance)
+        when (instance) {
+            is LabelNode -> labelNodes[instance.overlay] = instance
+            else -> Unit
+        }
     }
 
     // Don't use because of performance issues !!
@@ -43,7 +55,21 @@ internal class MapApplier(
 
     override fun remove(index: Int, count: Int) {
         checkNotNull(current as? MapContainerNode).removeAt(index = index, count = count)
+            .forEach { instance ->
+                when (instance) {
+                    is LabelNode -> labelNodes.remove(instance.overlay)
+                    else -> Unit
+                }
+            }
     }
 
-    override fun onClear() = Unit
+    override fun onClear() {
+        labelNodes.clear()
+    }
+
+    private fun initOnClickListeners() {
+        map.setOnLabelClickListener { _, _, label ->
+            labelNodes[label]?.run { onLabelClick(label) }
+        }
+    }
 }
