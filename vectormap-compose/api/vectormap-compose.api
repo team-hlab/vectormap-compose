@@ -1,5 +1,5 @@
 public final class io/hlab/vectormap/compose/KakaoMapKt {
-	public static final fun KakaoMap (Landroidx/compose/ui/Modifier;Lio/hlab/vectormap/compose/settings/MapInitialOptions;Lio/hlab/vectormap/compose/settings/MapViewSettings;Lio/hlab/vectormap/compose/settings/MapGestureSettings;Ljava/lang/String;Landroidx/compose/foundation/layout/PaddingValues;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;III)V
+	public static final fun KakaoMap (Landroidx/compose/ui/Modifier;Lio/hlab/vectormap/compose/settings/MapInitialOptions;Lio/hlab/vectormap/compose/state/CameraPositionState;Lio/hlab/vectormap/compose/settings/MapViewSettings;Lio/hlab/vectormap/compose/settings/MapGestureSettings;Ljava/lang/String;Landroidx/compose/foundation/layout/PaddingValues;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;IIII)V
 }
 
 public final class io/hlab/vectormap/compose/extension/BuilderExtensionKt {
@@ -241,6 +241,7 @@ public final class io/hlab/vectormap/compose/state/CameraPositionState$Companion
 }
 
 public final class io/hlab/vectormap/compose/state/CameraPositionStateKt {
+	public static final fun getCurrentCameraPositionState (Landroidx/compose/runtime/Composer;I)Lio/hlab/vectormap/compose/state/CameraPositionState;
 	public static final fun rememberCameraPositionState (Ljava/lang/String;Lcom/kakao/vectormap/camera/CameraPosition;Lkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)Lio/hlab/vectormap/compose/state/CameraPositionState;
 }
 
