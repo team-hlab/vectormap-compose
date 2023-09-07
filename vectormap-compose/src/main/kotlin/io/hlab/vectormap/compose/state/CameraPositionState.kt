@@ -10,10 +10,12 @@ import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import com.kakao.vectormap.KakaoMap
+import com.kakao.vectormap.LatLng
 import com.kakao.vectormap.camera.CameraAnimation
 import com.kakao.vectormap.camera.CameraPosition
 import com.kakao.vectormap.camera.CameraUpdate
 import com.kakao.vectormap.camera.CameraUpdateFactory
+import io.hlab.vectormap.compose.extension.cameraPosition
 import io.hlab.vectormap.compose.internal.CameraPositionParcel
 import io.hlab.vectormap.compose.internal.parcelize
 import io.hlab.vectormap.compose.internal.restore
@@ -98,6 +100,45 @@ public class CameraPositionState(
                 }
             }
         }
+
+    /**
+     * [com.kakao.vectormap.label.TrackingManager] 의 StartListener API
+     *
+     * 트래킹 매니저의 경우, 기본적으로 카메라가 라벨을 따라 이동하도록 설계되어 있으나
+     * 별도의 카메라 이동 이벤트는 발행하지 않으므로 트래킹이 시작될 때 현재 카메라 정보를 기반으로 카메라 정보를 갱신해 줄 수 있도록 한다.
+     *
+     * 다만, 트래킹이 시작되는 시점에서 카메라가 현재 라벨의 위치로 빠르게 움직이게 되는데, 이 때 움직여서 도착하는 시점은 알 수 없으므로
+     * [onLabelTrackStopped] 와 다르게 라벨의 현위치를 파라미터로 받아 미리 매핑해 두는 hacky 한 방법을 제시한다.
+     */
+    internal fun onLabelTrackStarted(latLng: LatLng) {
+        val currentPosition = rawPosition
+        rawPosition = cameraPosition {
+            position = latLng
+            zoomLevel = currentPosition.zoomLevel
+            tiltAngle = currentPosition.tiltAngle
+            rotationAngle = currentPosition.rotationAngle
+            height = currentPosition.height
+        }
+    }
+
+    /**
+     * [com.kakao.vectormap.label.TrackingManager] 의 StopListener API
+     *
+     * 트래킹 매니저의 경우, 기본적으로 카메라가 라벨을 따라 이동하도록 설계되어 있으나
+     * 별도의 카메라 이동 이벤트는 발행하지 않으므로 트래킹이 종료될 때 마지막 카메라 정보를 최신화하여 카메라 정보를 갱신해 줄 수 있도록 한다.
+     */
+    internal fun onLabelTrackStopped() {
+        // TrackingManager 로 맵이 움직일 경우, OnCameraMoveEndListener 는 호출되지 않는다.
+        // 이에 카메라 변화 상태를 트래킹하는 것이 불가능한 문제가 존재한다.
+        // 이를 해결하기 위해 getter 가 호출되는 시점에서 현재 카메라의 상태와 일치하지 않는 경우가 발생할 수 있으므로 이를 sync 하도록 구현한다.
+        // getter 가 내부적으로 호출되는 케이스는 초기 initialize ( setMap ) 외에는 존재하지 않으며, 외부에서 필요할 경우에만 호출되기 때문에
+        // 미치는 영향도는 적을 것으로 생각된다.
+        map?.cameraPosition?.let { currentMapCameraPosition ->
+            if (!rawPosition.isEqualByValues(currentMapCameraPosition)) {
+                rawPosition = currentMapCameraPosition
+            }
+        }
+    }
 
     /**
      * 지도가 최대로 축소될 수 있는 값.
@@ -284,3 +325,11 @@ internal val LocalCameraPositionState = compositionLocalOf { CameraPositionState
 public val currentCameraPositionState: CameraPositionState
     @[ReadOnlyComposable Composable]
     get() = LocalCameraPositionState.current
+
+internal fun CameraPosition.isEqualByValues(other: CameraPosition): Boolean =
+    position.latitude == other.position.latitude &&
+        position.longitude == other.position.longitude &&
+        zoomLevel == other.zoomLevel &&
+        tiltAngle == other.tiltAngle &&
+        rotationAngle == other.rotationAngle &&
+        height == other.height
