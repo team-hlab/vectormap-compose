@@ -3,6 +3,7 @@ package io.hlab.vectormap.compose
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -34,6 +35,9 @@ import io.hlab.vectormap.compose.settings.DefaultMapViewSettings
 import io.hlab.vectormap.compose.settings.MapGestureSettings
 import io.hlab.vectormap.compose.settings.MapInitialOptions
 import io.hlab.vectormap.compose.settings.MapViewSettings
+import io.hlab.vectormap.compose.state.CameraPositionState
+import io.hlab.vectormap.compose.state.LocalCameraPositionState
+import io.hlab.vectormap.compose.state.rememberCameraPositionState
 
 /**
  * [com.kakao.vectormap.KakaoMap] 을 제공하는 컴포저블
@@ -47,6 +51,7 @@ import io.hlab.vectormap.compose.settings.MapViewSettings
 public fun KakaoMap(
     modifier: Modifier = Modifier,
     mapInitialOptions: MapInitialOptions = DefaultMapInitialOptions,
+    cameraPositionState: CameraPositionState = rememberCameraPositionState(),
     mapViewSettings: MapViewSettings = DefaultMapViewSettings,
     mapGestureSettings: MapGestureSettings = DefaultMapGestureSettings,
     contentDescription: String? = null,
@@ -107,6 +112,7 @@ public fun KakaoMap(
         it.onCameraMoveEnd = onCameraMoveEnd
     }
     // map settings
+    val currentCameraPositionState by rememberUpdatedState(cameraPositionState)
     val currentMapPadding by rememberUpdatedState(mapPadding)
     val currentMapViewSettings by rememberUpdatedState(mapViewSettings)
     val currentMapGestureSettings by rememberUpdatedState(mapGestureSettings)
@@ -124,12 +130,17 @@ public fun KakaoMap(
                 mapCallbackContainer = mapLifecycleCallbacks,
             ) {
                 MapUpdater(
+                    cameraPositionState = currentCameraPositionState,
                     mapEventListeners = mapEventListeners,
                     mapViewSettings = currentMapViewSettings,
                     mapGestureSettings = currentMapGestureSettings,
                     mapPadding = currentMapPadding,
                 )
-                currentContent?.invoke()
+                CompositionLocalProvider(
+                    LocalCameraPositionState provides cameraPositionState,
+                ) {
+                    currentContent?.invoke()
+                }
             }
         }
     }

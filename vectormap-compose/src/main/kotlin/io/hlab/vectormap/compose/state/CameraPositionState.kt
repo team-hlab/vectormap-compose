@@ -2,6 +2,8 @@ package io.hlab.vectormap.compose.state
 
 import androidx.annotation.UiThread
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.Saver
@@ -274,3 +276,11 @@ public class CameraPositionState(
         )
     }
 }
+
+// Composition State 생성
+internal val LocalCameraPositionState = compositionLocalOf { CameraPositionState() }
+
+// Composition State 주입을 통해 내부에서 활용 가능하도록 함
+public val currentCameraPositionState: CameraPositionState
+    @[ReadOnlyComposable Composable]
+    get() = LocalCameraPositionState.current
