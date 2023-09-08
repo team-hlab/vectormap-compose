@@ -239,7 +239,6 @@ public final class io/hlab/vectormap/compose/settings/MapWidgetPosition {
 }
 
 public final class io/hlab/vectormap/compose/settings/PoiLanguage : java/lang/Enum {
-	public static final field English Lio/hlab/vectormap/compose/settings/PoiLanguage;
 	public static final field Korean Lio/hlab/vectormap/compose/settings/PoiLanguage;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lio/hlab/vectormap/compose/settings/PoiLanguage;
