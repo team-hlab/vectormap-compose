@@ -41,6 +41,40 @@ public object LabelDefaults {
     public val Anchor: Offset = Offset(0.5f, 0.5f)
 }
 
+/**
+ * [Label] Composable
+ *
+ * @param position 라벨이 표시될 지리적 위치 ([LatLng]) 을 지정합니다.
+ * @param iconResId 아이콘으로 사용할 이미지 리소스를 지정합니다. Vector Drawable 은 kakao-map 정책 상 지원하지 않습니다.
+ * @param anchor 앵커를 지원한다. 앵커는 아이콘 이미지에서 기준이 되는 지점을 의미합니다. 앵커로 지정된 지점이 마커의 좌표에 위치하게 됩니다.
+ * 값의 범위는 (0, 0)~(1, 1) 이며, (0, 0) 일 경우 이미지의 왼쪽 위 / (1, 1) 일 경우 이미지의 오른쪽 아래에 위치합니다.
+ * 기본값은 [LabelDefaults.Anchor] 이며 정 중앙에 위치하게 됩니다.
+ * @param rotate 아이콘의 각도를 지정합니다. 각도를 지정하면 아이콘이 해당 각도만큼 시계 방향으로 회전합니다. 기본값은 0입니다.
+ * @param labelId 라벨의 아이디를 지정합니다. 기본값은 null 이며 이 경우, 유니크한 값으로 자동 생성됩니다.
+ * @param tag 태그를 지정합니다. 기본값은 null 입니다.
+ * @param rank 랭크를 지정합니다. 기본값은 0 입니다.
+ * @param transition 라벨이 나타나고 사라질 때의 애니메이션을 지정합니다. 기본값은 [LabelDefaults.MapLabelTransition] 입니다.
+ * @param transform 라벨의 변환을 지정합니다. 지도가 움직일 때 라벨이 어떤 자세를 유지할 지를 의미합니다.
+ *  * [TransformMethod] 를 이용해 지정하여 기본값은 [LabelDefaults.Transform] 이며 지도의 변화에 상관 없이 형태를 유지합니다.
+ * @param enableAnimateMove [position] 값이 변경됨에 따라 라벨이 이동할 때, 애니메이션을 적용해 부드럽게 이동시킬 지를 지정합니다.
+ * 기본값은 [LabelDefaults.MoveDuration] 가 true 일 경우, [animateMoveDuration] 의 값에 따라 애니메이션을 적용합니다.
+ * @param animateMoveDuration [animateMoveDuration] 가 허용된 경우 적용될 애니메이션 시간 (millis) 을 지정합니다.
+ * 기본값은 [LabelDefaults.MoveDuration] 이며 300 millisecond 입니다.
+ * @param isVisible 라벨이 가시성을 지정합니다. 가시성이 false 일 경우 오버레이는 화면에 나타나지 않습니다.
+ * 가시성은 명시적으로 지정하지 않는 한 변하지 않습니다. 즉, 현재 카메라 영역이 오버레이 위치를 담지 못 하더라도, 가시성이 false 로 변하지 않습니다.
+ * 기본값은 true 입니다.
+ * @param isClickable 라벨의 OnClick 이벤트 실행 가능 여부를 지정합니다. 기본값은 true 입니다.
+ * @param onClick 해당 라벨이 클릭 되었을 때의 처리를 위임한다. 컴포즈 에서는 기존과 같이 LabelOnClickListener 를 별도로 선언해서 사용하는 것보다,
+ * 각 라벨노드에 위임하고 실제 실행은 내부적으로 매핑해서 맵 객체에 제공하는 것이 보다 직관적이라고 판단해 이와 같이 제공합니다.
+ * @param isApplyDpScale 아이콘 이밎와 텍스트의 크기에 영향을 줍니다. 이 옵션이 true 라면 지도 객체 내부에서 DP 를 적용해 컨트롤 하게끔 하여
+ * 해상도가 달라져도 아이콘 이미지와 텍스트 크기에 영향을 주지 않게 됩니다. 기본값은 true 입니다.
+ * @param isTracking 라벨이 이동할 때, 지도 중심이 라벨에 맞춰지게 할 지를 지정합니다. 기본값은 false 입니다.
+ * 해당 값이 변경되어 트래킹이 시작/종료되는 시점에, [io.hlab.vectormap.compose.state.CameraPositionState] 을 갱신합니다.
+ * @param minZoom 오버레이가 보여질 최소 줌 레벨을 지정하빈다. 기본값은 [LabelDefaults.MinZoom] 입니다.
+ * @param children 이 라벨의 변형 ( move / rotate / etc. ) 을 따라 행동할 오버레이 컴포저블을 추가합니다.
+ * 현재 vecotrmap API 에서 shareTransform 옵션을 < 대상자 : 라벨 / 요청자 : 라벨 / 폴리곤 > 에 대해서만 제공하므로
+ * 이를 충분히 고려할 수 있어야 합니다.
+ */
 @KakaoMapComposable
 @Composable
 public fun Label(
@@ -87,6 +121,40 @@ public fun Label(
     )
 }
 
+/**
+ * [Label] Composable
+ *
+ * @param position 라벨이 표시될 지리적 위치 ([LatLng]) 을 지정합니다.
+ * @param bitmap 아이콘으로 사용할 비트맵 객체를 지정합니다.
+ * @param anchor 앵커를 지원한다. 앵커는 아이콘 이미지에서 기준이 되는 지점을 의미합니다. 앵커로 지정된 지점이 마커의 좌표에 위치하게 됩니다.
+ * 값의 범위는 (0, 0)~(1, 1) 이며, (0, 0) 일 경우 이미지의 왼쪽 위 / (1, 1) 일 경우 이미지의 오른쪽 아래에 위치합니다.
+ * 기본값은 [LabelDefaults.Anchor] 이며 정 중앙에 위치하게 됩니다.
+ * @param rotate 아이콘의 각도를 지정합니다. 각도를 지정하면 아이콘이 해당 각도만큼 시계 방향으로 회전합니다. 기본값은 0입니다.
+ * @param labelId 라벨의 아이디를 지정합니다. 기본값은 null 이며 이 경우, 유니크한 값으로 자동 생성됩니다.
+ * @param tag 태그를 지정합니다. 기본값은 null 입니다.
+ * @param rank 랭크를 지정합니다. 기본값은 0 입니다.
+ * @param transition 라벨이 나타나고 사라질 때의 애니메이션을 지정합니다. 기본값은 [LabelDefaults.MapLabelTransition] 입니다.
+ * @param transform 라벨의 변환을 지정합니다. 지도가 움직일 때 라벨이 어떤 자세를 유지할 지를 의미합니다.
+ *  * [TransformMethod] 를 이용해 지정하여 기본값은 [LabelDefaults.Transform] 이며 지도의 변화에 상관 없이 형태를 유지합니다.
+ * @param enableAnimateMove [position] 값이 변경됨에 따라 라벨이 이동할 때, 애니메이션을 적용해 부드럽게 이동시킬 지를 지정합니다.
+ * 기본값은 [LabelDefaults.MoveDuration] 가 true 일 경우, [animateMoveDuration] 의 값에 따라 애니메이션을 적용합니다.
+ * @param animateMoveDuration [animateMoveDuration] 가 허용된 경우 적용될 애니메이션 시간 (millis) 을 지정합니다.
+ * 기본값은 [LabelDefaults.MoveDuration] 이며 300 millisecond 입니다.
+ * @param isVisible 라벨이 가시성을 지정합니다. 가시성이 false 일 경우 오버레이는 화면에 나타나지 않습니다.
+ * 가시성은 명시적으로 지정하지 않는 한 변하지 않습니다. 즉, 현재 카메라 영역이 오버레이 위치를 담지 못 하더라도, 가시성이 false 로 변하지 않습니다.
+ * 기본값은 true 입니다.
+ * @param isClickable 라벨의 OnClick 이벤트 실행 가능 여부를 지정합니다. 기본값은 true 입니다.
+ * @param onClick 해당 라벨이 클릭 되었을 때의 처리를 위임한다. 컴포즈 에서는 기존과 같이 LabelOnClickListener 를 별도로 선언해서 사용하는 것보다,
+ * 각 라벨노드에 위임하고 실제 실행은 내부적으로 매핑해서 맵 객체에 제공하는 것이 보다 직관적이라고 판단해 이와 같이 제공합니다.
+ * @param isApplyDpScale 아이콘 이밎와 텍스트의 크기에 영향을 줍니다. 이 옵션이 true 라면 지도 객체 내부에서 DP 를 적용해 컨트롤 하게끔 하여
+ * 해상도가 달라져도 아이콘 이미지와 텍스트 크기에 영향을 주지 않게 됩니다. 기본값은 true 입니다.
+ * @param isTracking 라벨이 이동할 때, 지도 중심이 라벨에 맞춰지게 할 지를 지정합니다. 기본값은 false 입니다.
+ * 해당 값이 변경되어 트래킹이 시작/종료되는 시점에, [io.hlab.vectormap.compose.state.CameraPositionState] 을 갱신합니다.
+ * @param minZoom 오버레이가 보여질 최소 줌 레벨을 지정하빈다. 기본값은 [LabelDefaults.MinZoom] 입니다.
+ * @param children 이 라벨의 변형 ( move / rotate / etc. ) 을 따라 행동할 오버레이 컴포저블을 추가합니다.
+ * 현재 vecotrmap API 에서 shareTransform 옵션을 < 대상자 : 라벨 / 요청자 : 라벨 / 폴리곤 > 에 대해서만 제공하므로
+ * 이를 충분히 고려할 수 있어야 합니다.
+ */
 @KakaoMapComposable
 @Composable
 public fun Label(
@@ -145,19 +213,29 @@ public fun Label(
  * 기본값은 [LabelDefaults.Anchor] 이며 정 중앙에 위치하게 됩니다.
  * @param rotate 아이콘의 각도를 지정합니다. 각도를 지정하면 아이콘이 해당 각도만큼 시계 방향으로 회전합니다. 기본값은 0입니다.
  * @param labelId 라벨의 아이디를 지정합니다. 기본값은 null 이며 이 경우, 유니크한 값으로 자동 생성됩니다.
- * @param tag
- * @param rank
- * @param transition
- * @param transform
- * @param enableAnimateMove
- * @param animateMoveDuration
- * @param isVisible
- * @param isClickable
- * @param onClick
- * @param isApplyDpScale
- * @param isTracking
- * @param minZoom
- * @param children
+ * @param tag 태그를 지정합니다. 기본값은 null 입니다.
+ * @param rank 랭크를 지정합니다. 기본값은 0 입니다.
+ * @param transition 라벨이 나타나고 사라질 때의 애니메이션을 지정합니다. 기본값은 [LabelDefaults.MapLabelTransition] 입니다.
+ * @param transform 라벨의 변환을 지정합니다. 지도가 움직일 때 라벨이 어떤 자세를 유지할 지를 의미합니다.
+ *  * [TransformMethod] 를 이용해 지정하여 기본값은 [LabelDefaults.Transform] 이며 지도의 변화에 상관 없이 형태를 유지합니다.
+ * @param enableAnimateMove [position] 값이 변경됨에 따라 라벨이 이동할 때, 애니메이션을 적용해 부드럽게 이동시킬 지를 지정합니다.
+ * 기본값은 [LabelDefaults.MoveDuration] 가 true 일 경우, [animateMoveDuration] 의 값에 따라 애니메이션을 적용합니다.
+ * @param animateMoveDuration [animateMoveDuration] 가 허용된 경우 적용될 애니메이션 시간 (millis) 을 지정합니다.
+ * 기본값은 [LabelDefaults.MoveDuration] 이며 300 millisecond 입니다.
+ * @param isVisible 라벨이 가시성을 지정합니다. 가시성이 false 일 경우 오버레이는 화면에 나타나지 않습니다.
+ * 가시성은 명시적으로 지정하지 않는 한 변하지 않습니다. 즉, 현재 카메라 영역이 오버레이 위치를 담지 못 하더라도, 가시성이 false 로 변하지 않습니다.
+ * 기본값은 true 입니다.
+ * @param isClickable 라벨의 OnClick 이벤트 실행 가능 여부를 지정합니다. 기본값은 true 입니다.
+ * @param onClick 해당 라벨이 클릭 되었을 때의 처리를 위임한다. 컴포즈 에서는 기존과 같이 LabelOnClickListener 를 별도로 선언해서 사용하는 것보다,
+ * 각 라벨노드에 위임하고 실제 실행은 내부적으로 매핑해서 맵 객체에 제공하는 것이 보다 직관적이라고 판단해 이와 같이 제공합니다.
+ * @param isApplyDpScale 아이콘 이밎와 텍스트의 크기에 영향을 줍니다. 이 옵션이 true 라면 지도 객체 내부에서 DP 를 적용해 컨트롤 하게끔 하여
+ * 해상도가 달라져도 아이콘 이미지와 텍스트 크기에 영향을 주지 않게 됩니다. 기본값은 true 입니다.
+ * @param isTracking 라벨이 이동할 때, 지도 중심이 라벨에 맞춰지게 할 지를 지정합니다. 기본값은 false 입니다.
+ * 해당 값이 변경되어 트래킹이 시작/종료되는 시점에, [io.hlab.vectormap.compose.state.CameraPositionState] 을 갱신합니다.
+ * @param minZoom 오버레이가 보여질 최소 줌 레벨을 지정하빈다. 기본값은 [LabelDefaults.MinZoom] 입니다.
+ * @param children 이 라벨의 변형 ( move / rotate / etc. ) 을 따라 행동할 오버레이 컴포저블을 추가합니다.
+ * 현재 vecotrmap API 에서 shareTransform 옵션을 < 대상자 : 라벨 / 요청자 : 라벨 / 폴리곤 > 에 대해서만 제공하므로
+ * 이를 충분히 고려할 수 있어야 합니다.
  */
 @KakaoMapComposable
 @Composable
