@@ -3,6 +3,7 @@ package io.hlab.vectormap.compose
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -22,6 +23,7 @@ import com.kakao.vectormap.LatLng
 import com.kakao.vectormap.MapView
 import com.kakao.vectormap.MapViewInfo
 import com.kakao.vectormap.camera.CameraPosition
+import io.hlab.vectormap.compose.annotation.KakaoMapComposable
 import io.hlab.vectormap.compose.extension.NoPadding
 import io.hlab.vectormap.compose.extension.disposingComposition
 import io.hlab.vectormap.compose.extension.newComposition
@@ -34,6 +36,9 @@ import io.hlab.vectormap.compose.settings.DefaultMapViewSettings
 import io.hlab.vectormap.compose.settings.MapGestureSettings
 import io.hlab.vectormap.compose.settings.MapInitialOptions
 import io.hlab.vectormap.compose.settings.MapViewSettings
+import io.hlab.vectormap.compose.state.CameraPositionState
+import io.hlab.vectormap.compose.state.LocalCameraPositionState
+import io.hlab.vectormap.compose.state.rememberCameraPositionState
 
 /**
  * [com.kakao.vectormap.KakaoMap] 을 제공하는 컴포저블
@@ -47,6 +52,7 @@ import io.hlab.vectormap.compose.settings.MapViewSettings
 public fun KakaoMap(
     modifier: Modifier = Modifier,
     mapInitialOptions: MapInitialOptions = DefaultMapInitialOptions,
+    cameraPositionState: CameraPositionState = rememberCameraPositionState(),
     mapViewSettings: MapViewSettings = DefaultMapViewSettings,
     mapGestureSettings: MapGestureSettings = DefaultMapGestureSettings,
     contentDescription: String? = null,
@@ -64,7 +70,10 @@ public fun KakaoMap(
     onTerrainClick: (LatLng) -> Unit = { _ -> },
     onCameraMoveStart: (GestureType) -> Unit = {},
     onCameraMoveEnd: (CameraPosition, GestureType) -> Unit = { _, _ -> },
-    content: (@Composable () -> Unit)? = null,
+    content: (
+        @Composable @KakaoMapComposable
+        () -> Unit
+    )? = null,
 ) {
     // Compose preview 일 때, 빈 영역을 반환해 렌더링을 허용할 수 있도록 한다.
     if (LocalInspectionMode.current) {
@@ -107,6 +116,7 @@ public fun KakaoMap(
         it.onCameraMoveEnd = onCameraMoveEnd
     }
     // map settings
+    val currentCameraPositionState by rememberUpdatedState(cameraPositionState)
     val currentMapPadding by rememberUpdatedState(mapPadding)
     val currentMapViewSettings by rememberUpdatedState(mapViewSettings)
     val currentMapGestureSettings by rememberUpdatedState(mapGestureSettings)
@@ -124,12 +134,17 @@ public fun KakaoMap(
                 mapCallbackContainer = mapLifecycleCallbacks,
             ) {
                 MapUpdater(
+                    cameraPositionState = currentCameraPositionState,
                     mapEventListeners = mapEventListeners,
                     mapViewSettings = currentMapViewSettings,
                     mapGestureSettings = currentMapGestureSettings,
                     mapPadding = currentMapPadding,
                 )
-                currentContent?.invoke()
+                CompositionLocalProvider(
+                    LocalCameraPositionState provides cameraPositionState,
+                ) {
+                    currentContent?.invoke()
+                }
             }
         }
     }

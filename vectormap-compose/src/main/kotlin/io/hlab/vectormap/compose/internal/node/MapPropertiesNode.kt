@@ -7,6 +7,7 @@ import com.kakao.vectormap.KakaoMap
 import com.kakao.vectormap.KakaoMap.OnMapViewInfoChangeListener
 import com.kakao.vectormap.MapViewInfo
 import io.hlab.vectormap.compose.internal.MapEventListeners
+import io.hlab.vectormap.compose.state.CameraPositionState
 
 /**
  * 맵 객체의 설정을 관리하는 Node
@@ -18,20 +19,34 @@ import io.hlab.vectormap.compose.internal.MapEventListeners
 internal class MapPropertiesNode(
     val map: KakaoMap,
     initialMapPadding: PaddingValues,
+    cameraPositionState: CameraPositionState,
     var mapEventListeners: MapEventListeners,
     var density: Density,
     var layoutDirection: LayoutDirection,
 ) : MapNode {
 
     init {
+        // 초기 맵 패딩 세팅이 카메라 포지션보다 먼저 실행되어야 카메라가 정상적인 위치에서 실행됨을 보장할 수 있음.
         setMapPadding(paddingValues = initialMapPadding)
+        cameraPositionState.setMap(map)
     }
 
+    var cameraPositionState: CameraPositionState = cameraPositionState
+        set(value) {
+            if (value == field) return
+            field.setMap(null)
+            field = value
+            value.setMap(map)
+        }
+
     private val onCameraMoveStartListener = KakaoMap.OnCameraMoveStartListener { _, gestureType ->
+        cameraPositionState.isMoving = true
         mapEventListeners.onCameraMoveStart(gestureType)
     }
 
     private val onCameraMoveEndListener = KakaoMap.OnCameraMoveEndListener { _, position, gestureType ->
+        cameraPositionState.isMoving = false
+        cameraPositionState.rawPosition = position
         mapEventListeners.onCameraMoveEnd(position, gestureType)
     }
 
@@ -64,7 +79,9 @@ internal class MapPropertiesNode(
         map.setOnCameraMoveEndListener(onCameraMoveEndListener)
     }
 
-    override fun onRemoved() = Unit
+    override fun onRemoved() {
+        cameraPositionState.setMap(null)
+    }
 
     /**
      * Map 의 Padding 을 설정하는 함수

@@ -15,6 +15,7 @@ import io.hlab.vectormap.compose.internal.node.MapPropertiesNode
 import io.hlab.vectormap.compose.settings.MapGestureSettings
 import io.hlab.vectormap.compose.settings.MapViewSettings
 import io.hlab.vectormap.compose.settings.adjustDimScreenType
+import io.hlab.vectormap.compose.state.CameraPositionState
 
 /**
  * MapProperty 를 최신 상태로 유지하기 위한 Composable.
@@ -24,6 +25,7 @@ import io.hlab.vectormap.compose.settings.adjustDimScreenType
 @Suppress("NOTHING_TO_INLINE")
 @Composable
 internal inline fun MapUpdater(
+    cameraPositionState: CameraPositionState,
     mapEventListeners: MapEventListeners,
     mapViewSettings: MapViewSettings,
     mapGestureSettings: MapGestureSettings,
@@ -37,9 +39,14 @@ internal inline fun MapUpdater(
     // 매번 LayoutNode 에 대한 직접적인 recompose 가 매번 일어나는 걸 방지할 수 있음.
     ComposeNode<MapPropertiesNode, MapApplier>(
         factory = {
+            // baseMap 이 초기값이 기본 맵 타입인 경우, 불필요한 API 의 호출을 피함.
+            if (mapViewSettings.baseMap != MapType.NORMAL) {
+                map.adjustBaseMap(mapType = mapViewSettings.baseMap)
+            }
             MapPropertiesNode(
                 map = map,
                 initialMapPadding = mapPadding,
+                cameraPositionState = cameraPositionState,
                 mapEventListeners = mapEventListeners,
                 density = density,
                 layoutDirection = layoutDirection,
@@ -101,7 +108,8 @@ internal inline fun MapUpdater(
             set(mapGestureSettings.isLongTapAndDragEnabled) { map.setGestureEnable(GestureType.LongTapAndDrag, it) }
             set(mapGestureSettings.isRotateZoomEnabled) { map.setGestureEnable(GestureType.RotateZoom, it) }
             set(mapGestureSettings.isOneFingerZoomEnabled) { map.setGestureEnable(GestureType.OneFingerZoom, it) }
-            // EventListener 변화 감지
+            // CameraPositionState 및 EventListener 변경 감지
+            update(cameraPositionState) { this.cameraPositionState = it }
             update(mapEventListeners) { this.mapEventListeners = it }
         },
     )
